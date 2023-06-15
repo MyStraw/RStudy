@@ -1,22 +1,32 @@
 # Chapter 06
 
 # 실습: iris 데이터 셋을 대상으로 '%>%' 기호를 이용하여 함수 적용하기 
+# 파이프라인(세로파이프라고 생각)
+## 책에 있는 예제 싹다 바꿔서 dplyr만 쓸거야.
+#필터, 슬라이스, 셀렉트, 뮤테이트, 서머라이즈(이거 5개만 쓸거야)
+
 install.packages("dplyr")
 library(dplyr)
-iris %>% head()
+iris %>% head() #이건 되네. 눈에 안보이는데 맨앞에 dataset 들어간다고 가정.
+#스트림 파이프라인 짜라고 하는거.
+#1. 컬럼 먼저 조작하고, 이 컬럼 존재한다는 가정하에 특정행 갖고와서
+#2. summarize로 가져와서 결과를 보는게 목표.
+
+head() # x없다고 하는데... 이렇게 안되는데?
 
 iris %>% head() %>% subset(Sepal.Length >= 5.0)
 
 
 # 실습: dplyr 패키지와 hflight 데이터 셋 설치 
-install.packages(c("dplyr", "hflights"))
+install.packages(c("dplyr", "hflights")) #설치할때 no! 눌릴것. 리스타트 하고 설치할거냐 뭍는거.
 library(dplyr)
 library(hflights)
 
-str(hflights)
+str(hflights) #항공기 승객용 데이터. 데이터구조 확인
 
 # 실습: tbl_df() 함수 사용하기 
-hflights_df <- tbl_df(hflights)
+?tbl_df#데이터프레임을 tbl로 바꾸는거. tribble로.
+hflights_df <- tbl_df(hflights) 
 hflights_df
 
 
@@ -39,10 +49,14 @@ select(hflights_df, Year:ArrTime)
 
 # 실습: hflights_df에서 출발 지연시간과 도착 지연시간의 차이를 계산한 칼럼 추가하기 
 mutate(hflights_df, gain = ArrTime - DepTime, 
-       gain_per_hour = gain / (AirTime / 60))
+       gain_per_hour = gain / (AirTime / 60))#컬럼추가
 
 
-# 실습: mutate() 함수에 의해 추가된 칼럼 뵉 
+# 실습: mutate() 함수에 의해 추가된 칼럼 뵉 #셀렉트 열. mutate = 열추가.
+#둘다 열이네? 데이터셋.
+#열추가 한거 셀렉트.  (데이터셋,셀렉트 선택자)
+# mutate() , year, Month~~ 
+# 여기서 mutate(hf~/60)) 이 부분이 데이터셋인걸 알겠어? 한눈에 들어와야해.
 select(mutate(hflights_df, gain = ArrDelay - DepDelay, 
               gain_per_hour = gain / (AirTime / 60)),
        Year, Month, ArrDelay, DepDelay, gain, gain_per_hour)
