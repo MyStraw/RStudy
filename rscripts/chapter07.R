@@ -389,6 +389,8 @@ library(cvTools)
 # 단계 3: K겹 교차 검정 데이터 셋 생성
 cross <- cvFolds(n = 6, K = 3, R = 1, type = "random")
 cross
+#전체 6개. 3겹. 
+
 
 # 단계 4: K겹 교차 검정 데이터 셋 구조 보기 
 str(cross)

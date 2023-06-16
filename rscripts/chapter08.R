@@ -24,6 +24,7 @@ histogram(~gcsescore | factor(score), data = Chem97)
 
 
 # 실습: densityplot() 함수를 사용하여 밀도 그래프 그리기
+#팩터~ 격자.
 densityplot(~gcsescore | factor(score), data = Chem97,
             groups = gender, plot.Points = T, 
             auto.ley = T)
@@ -53,7 +54,9 @@ barchart(Var1 ~ Freq | Var2, data = dft, layout = c(4, 1), origin = 0)
 
 # 실습: dotplot() 함수를 사용하여 점 그래프 그리기 
 # 단계 1: layout() 속성이 없는 경우
-dotplot(Var1 ~ Freq | Var2, dft)
+dotplot(Var1 ~ Freq | Var2, dft) #앞이 x(빈도), 뒤가 y(죽는나이)
+dft
+View(dft)
 
 # 단계 2: layout() 속성을 적용한 경우 
 dotplot(Var1 ~ Freq | Var2, dft, layout = c(4, 1))
@@ -70,6 +73,8 @@ dotplot(Var1 ~ Freq, data = dft,
 # 단계 1: airquality 데이터 셋 가져오기 
 library(datasets)
 str(airquality)
+head(airquality)
+View(airquality)
 
 # 단계 2: xyplot() 함수를 사용하여 산점도 그리기 
 xyplot(Ozone ~ Wind, data = airquality)
@@ -96,6 +101,8 @@ xyplot(Ozone ~ Wind | Month, data = convert)
 head(quakes)
 str(quakes)
 
+#Longitude : 경도(지구중심으로부터 서,동 얼마나) 
+#Latitude : 위도(적도 기준으로 위 아래로 얼마나.)
 # 단계 2: 지진 발생 진앙지(위도와 경도) 산점도 그리기 
 xyplot(lat ~ long, data = quakes, pch = ".")
 
