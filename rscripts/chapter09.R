@@ -22,6 +22,14 @@ drv <- JDBC("oracle.jdbc.driver.OracleDriver",
 conn <- dbConnect(drv,
                   "jdbc:oracle:thin:@//127.0.0.1:1521/xe", "c##scott", "tiger")
 
+#여기까지가 연결. 세계관이 이제 DB로 들어가.
+#DB는 잡았어. 쿼리도 날렸어. 최선을 다했어
+#dbGetQuery() 이거 하면 리턴이 날라와야해
+#타입이 중요. 날라오는 타입이 뭐야?
+#데이터프레임이 날라오면? 뭐가됐든 내가 할수있다
+#만약에 String으로 오면? 삽된다. 파싱을 내가 해야해
+
+
 
 # 실습: 데이터베이스로부터 레코드 검색, 추가, 수정, 삭제하기 
 # 단계 1: 모든 레코드 검색
