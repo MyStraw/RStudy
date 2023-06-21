@@ -2,7 +2,7 @@
 
 # 실습: 전체 데이터 셋의 특성 보기
 # 단계 1: 실습 데이터 셋 가져오기 
-setwd("C:/Rwork/Part-III")
+setwd("C:/RStudy/Rwork-2nd/Part-III")
 data <- read.csv("descriptive.csv", header = TRUE)
 head(data)
 
@@ -96,13 +96,15 @@ quantile(x, 4/4)
 length(x)
 x.t <- table(x)
 max(x.t)
-
+x.t #빈도수를 어레이로 쫙 줬네. 내가 찍어본거. 수시로 찍어봐
 
 # 단계 2: 두 개의 행을 묶어서 matrix 생성
-x.m <- rbind(x.t)
+x.m <- rbind(x.t) #두개의 행을 묶어서 행렬을 만듦. x.t 는 x에서 빈도수로 만든거
+#바로위에 있네
+x.m
 class(x.m)
 str(x.m)
-which(x.m[1, ] == 18)
+which(x.m[1, ] == 18) #위에 클래스 열어보면, 빈도수 18인애 찾아.
 
 # 단계 3: 데이터프레임으로 변경
 x.df <- as.data.frame(x.m)
