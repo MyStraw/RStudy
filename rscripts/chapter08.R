@@ -260,7 +260,7 @@ qplot(hwy, data = mpg, fill = drv, binwidth = 2)
 
 
 # 실습: facets 속성을 사용하여 drv 변수값으로 행/열 단위로 패널 생성하기 
-# 단계 1: 열 단위 패널 생성
+# 단계 1: 열 단위 패널 생성 (행~열) facets = 면
 qplot(hwy, data = mpg, fill = drv, facets = . ~ drv, binwidth = 2)
 
 # 단계 2: 행 단위 패널 생성
@@ -300,13 +300,13 @@ qplot(wt, mpg, data = mtcars,
 # 단계 1: 실습용 데이터 셋 확인하기 
 head(diamonds)
 
-# 단계 2: geom 속성과 fill 속성 사용하기 
+# 단계 2: geom 속성과 fill 속성 사용하기  geom=지오메트리
 qplot(clarity, data = diamonds, fill = cut, geom = "bar")
 
 # 단계 3: 테두리 색 적용
 qplot(clarity, data = diamonds, colour = cut, geom = "bar")
 
-# 단계 4: geom = "point" 속성으로 산점도 그래프 그리기
+# 단계 4: geom = "point" 속성으로 산점도 그래프 그리기 #다이아몬드 하다가 갑자기 차
 qplot(wt, mpg, data = mtcars, size = qsec, geom = "point")
 
 # 단계 5: 산점도 그래프에 cyl 변수의 요인으로 포인트 크기 적용하고, 
@@ -338,7 +338,7 @@ qplot(mpg, wt, data = mtcars,
 
 
 # 실습: aes() 함수 속성을 추가하여 미적 요소 맵핑하기 
-# 단계 1: diamonds 데이터 셋에 미적 요소 맵핑
+# 단계 1: diamonds 데이터 셋에 미적 요소 맵핑 플러스로 겍체 레이어를 쌓아올리네
 p <- ggplot(diamonds, aes(carat, price, color = cut))
 p + geom_point()
 
@@ -443,9 +443,9 @@ ggmap(map)
 
 
 # 실습 : 2019년도 1월 대한민국 인구수를 기준으로 지역별 인구수 표시하기 
-# 단계 1: 데이터 셋 가져오기 
-pop <- read.csv(file.choose(), header = T)
-
+# 단계 1: 데이터 셋 가져오기 #파일 불러오기 창 뜬다 잘봐
+pop <- read.csv(file.choose(), header = T, fileEncoding = "cp949", encoding = "UTF-8")
+#euc-kr 하믄 안되나.
 library(stringr)
 
 region <- pop$'지역명'
