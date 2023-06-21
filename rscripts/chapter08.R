@@ -141,6 +141,7 @@ xyplot(Ozone + Solar.R ~ Wind | factor(Month),
 
 # 실습: equal.count() 함수를 사용하여 이산형 변수 범주화하기 
 # 단계 1: 1 ~ 150을 대상으로 겹치지 않게 4개 영역으로 범주화
+# 숫자 150을 4개로 나누는데 중복 없애. 
 numgroup <- equal.count(1:150, number = 4, overlap = 0)
 numgroup
 
@@ -174,7 +175,7 @@ xyplot(lat ~ long | depthgroup * magnitudegroup, data = quakes,
 
 
 # 실습: 이산형 변수를 리코딩한 뒤에 factor 형으로 변환하여 산점도 그리기 
-# 단계 1: depth 변수 리코딩
+# 단계 1: depth 변수 리코딩, #진앙 깊이를 그룹으로.
 quakes$depth3[quakes$depth >= 39.5 & quakes$depth <= 80.5] <- 'd1'
 quakes$depth3[quakes$depth >= 79.5 & quakes$depth <= 186.5] <- 'd2'
 quakes$depth3[quakes$depth >= 185.5 & quakes$depth <= 397.5] <- 'd3'
@@ -185,7 +186,7 @@ quakes$depth3[quakes$depth >= 562.5 & quakes$depth <= 680.5] <- 'd5'
 quakes$mag3[quakes$mag >= 3.95 & quakes$mag <= 4.65] <- 'm1'
 quakes$mag3[quakes$mag >= 4.55 & quakes$mag <= 6.65] <- 'm2'
 
-# 단계 3: factor 형으로 변환
+# 단계 3: factor 형으로 변환, 컬럼에 값 넣어주는게 팩터
 convert <- transform(quakes,
                      depth3 = factor(depth3),
                      mag3 = factor(mag3))
@@ -202,9 +203,9 @@ coplot(lat ~ long | depth, data = quakes)
 
 
 # 실습: 조건의 구간 크기와 겹침 간격 적용 후 조건 그래프 그리기 
-# 단계 1: 조건의 구간 막대가 0.1 단위로 겹쳐 범주화 
+# 단계 1: 조건의 구간 막대가 0.1 단위로 겹쳐 범주화 (0.1 하니까 겹침정도가 줄었네)
 coplot(lat ~ long | depth, dat = quakes,
-       overlap = 0.1)
+       overlap = 0.1) 
 
 # 단계 2: 조건 구간을 5개로 지정하고, 1행 5열으 패널로 조건 그래프 작성
 coplot(lat ~ long | depth, data = quakes, 
@@ -218,7 +219,7 @@ coplot(lat ~ long | depth, data = quakes,
        number = 5, row = 1, 
        panel = panel.smooth)
 
-# 단계 2: 패널 영역과 조건 막대에 색상 적용
+# 단계 2: 패널 영역과 조건 막대에 색상 적용 (#행~열|조건) 물결앞은 행, 뒤는 열
 coplot(lat ~ long | depth, data = quakes, 
        number = 5, row = 1, 
        col = 'blue',
@@ -237,10 +238,11 @@ install.packages("ggplot2")
 library(ggplot2)
 data(mpg)
 str(mpg)
-head(mpg)
-summary(mpg)
+head(mpg) #상위 5개. 이것만 봐도 좋다. 습관화!(오른쪽 화면 크기만큼 지가 잘라버린다)
+#콘솔화면 키우면 더 많은 거 보여준다.
+summary(mpg) #데이터 파악할때 습관처럼 하기(파이썬에서도)
 
-table(mpg$drv)
+table(mpg$drv)#빈도수. 4가 103개, f가 106개, r이 25개
 
 
 
@@ -248,8 +250,10 @@ table(mpg$drv)
 # 단계 1: 도수분포를 세로 막대 그래프로 표현
 qplot(hwy, data = mpg)
 
-# 단계 2: fill 속성 적용
-qplot(hwy, data = mpg, fill = drv)
+# 단계 2: fill 속성 적용 #mpg 데이터셋에서 hwy 변수를 기준으로 qplot 사용.
+#그래프 채우기는 drv 변수를 기준으로. hwy를 x로 기분으로 하여.
+#(x값, 데이터셋, 채우는 기준)
+qplot(hwy, data = mpg, fill = drv) #
 
 # 단계 3: binwidth 속성 적용
 qplot(hwy, data = mpg, fill = drv, binwidth = 2)
