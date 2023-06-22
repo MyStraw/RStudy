@@ -1,3 +1,5 @@
+# 12장. 교차검증과 카이제곱 검증
+
 # 단계1. 데이터 불러오기
 # 인코딩에 주의하세요.
 data <- read.csv("./data/cleanDescriptive.csv", header = TRUE, fileEncoding = "euc-kr")
@@ -32,7 +34,8 @@ CrossTable(x, y)
 
 # 실습: CrossTable() 함수를 이용한 카이제곱 검정
 CrossTable(x = diamonds$cut, 
-           y = diamonds$color, chisq = TRUE)
+           y = diamonds$color, chisq = TRUE) #카이 = 트루.
+#판다스는 도구
 
 # 실습: 주사위 적합도 검정
 chisq.test(c(4, 6, 17, 16, 8, 9))
