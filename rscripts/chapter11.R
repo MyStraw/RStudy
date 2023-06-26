@@ -7,9 +7,9 @@ data <- read.csv("descriptive.csv", header = TRUE)
 head(data)
 
 # 단계 2: descriptive.csv 데이터 셋의 데이터 특성 보기 
-dim(data)
-length(data)
-length(data$survey)
+dim(data) # 행 / 열
+length(data) # 열
+length(data$survey) # 행
 str(data)
 
 # 단계 3: 데이터 특성(최소값, 최대값, 평균, 분위수, 결측치(NA) 등) 제공
@@ -71,11 +71,12 @@ length(data$cost)
 summary(data$cost)
 
 # 실습: 데이터 정제(결측치 제거)
-plot(data$cost)
-data <- subset(data, data$cost >= 2 & data$cost <= 10)
+plot(data$cost) #극단치를 눈으로 확인
+data <- subset(data, data$cost >= 2 & data$cost <= 10) #극단치 제거
 x <- data$cost
 mean(x)
 
+plot(x) #정제후. 극단치 제거
 
 # 실습: 생활비(cost) 변수를 대상으로 대표값 구하기 
 # 단계 1: 평균과 중위수 구하기 
@@ -98,6 +99,8 @@ x.t <- table(x)
 max(x.t)
 x.t #빈도수를 어레이로 쫙 줬네. 내가 찍어본거. 수시로 찍어봐
 
+str(x.t)
+
 # 단계 2: 두 개의 행을 묶어서 matrix 생성
 x.m <- rbind(x.t) #두개의 행을 묶어서 행렬을 만듦. x.t 는 x에서 빈도수로 만든거
 #바로위에 있네
@@ -105,6 +108,8 @@ x.m
 class(x.m)
 str(x.m)
 which(x.m[1, ] == 18) #위에 클래스 열어보면, 빈도수 18인애 찾아.
+#2로도 바꿔보고 5로도 바꿔보고
+#각 빈도수가 어디(index) 있는지. 5로 했을때 3.5가 6번째에 있다. 이말
 
 # 단계 3: 데이터프레임으로 변경
 x.df <- as.data.frame(x.m)
@@ -117,7 +122,7 @@ names(x.df[19])
 
 
 
-# 실습: 생활비(cost) 변수를 대상으로 산포도 구하기 
+# 실습: 생활비(cost) 변수를 대상으로 산포도 구하기 (분산, 표준편차)
 var(x)
 sd(x)
 sqrt(var(data$cost, na.rm = T))
@@ -227,7 +232,7 @@ round(y * 100, 2)
 
 
 # 단계 3: 나이(age) 변수의 리코딩과 비율계산
-data$age2[data$age <= 45] <- "중년층"
+data$age2[data$age <= 45] <- "중년층" #새로운 컬럼 만들고~
 data$age2[data$age >= 46 & data$age <= 59] <- "장년층"
 data$age2[data$age >= 60] <- "노년층"
 x <- table(data$age2)

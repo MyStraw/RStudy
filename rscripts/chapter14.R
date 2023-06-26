@@ -14,7 +14,8 @@ name <- 1:10
 # 단계 2: 과목 데이터프레임 생성
 subject <- data.frame(s1, s2, s3, s4, s5, s6)
 str(subject)
-
+subject()#학생마다 점수 변하는디, 총점에서 어떤 과목이 제일 영향을 많이 주냐
+#이게 주성분 분석.
 
 
 # 실습: 변수의 주성분 분석
@@ -22,9 +23,13 @@ str(subject)
 pc <- prcomp(subject)
 summary(pc)
 plot(pc)
+subject
+cor(subject) #상관관계 분석
+#s1과 s2 비교하니 0.86 . -0.~ 이건 관계없단거.
 
 # 단계 2: 고유값으로 요인 수 분석
 en <- eigen(cor(subject))
+en
 names(en)
 
 en$values
@@ -66,6 +71,8 @@ print(result$loadings, cutoff = 0)
 # 단계 1: Factor1과 Factor2 요인적재량 시각화 
 plot(result$scores[ , c(1:2)],
      main = "Factor1과 Factor2 요인점수 행렬")
+
+result$scores
 
 text(result$scores[ , 1], result$scores[ , 2],
      labels = name, cex = 0.7, pos = 3, col = "blue")
@@ -120,7 +127,7 @@ nat <- data.frame(subject$s1, subject$s2)
 # 단계 2: 요인별 산술평균 계산
 app_science <- round((app$subject.s5 + app$subject.s6) / ncol(app), 2)
 soc_science <- round((soc$subject.s3 + soc$subject.s4) / ncol(soc), 2)
-nat_science <- round((nat$subject.s1 + nat$subject.s2) / ncol(net), 2)
+nat_science <- round((nat$subject.s1 + nat$subject.s2) / ncol(nat), 2)
 
 # 단계 3: 상관관계 분석
 subject_factor_df <- data.frame(app_science, soc_science, nat_science)
@@ -172,6 +179,8 @@ drinking_water_factor_df <- data.frame(satisfaction, closeness, pertinence)
 colnames(drinking_water_factor_df) <- c("제품만족도", "제품친밀도", "제품적절성")
 cor(drinking_water_factor_df)
 
+en2 <-eigen(cor(drinking_water_factor_df)) #아이겐밸류 계산해보자(465페이지)
+en2#표 완전 엉터리다.
 length(satisfaction); length(closeness); length(pertinence)
 
 
@@ -179,7 +188,7 @@ length(satisfaction); length(closeness); length(pertinence)
 
 # 실습: 기술 통계량 구하기 
 # 단계 1: 데잍 가져오기 
-product <- read.csv("C:/Rwork/Part-III/product.csv", header = TRUE)
+product <- read.csv("C:/RStudy/Rwork-2nd/Part-III/product.csv", header = TRUE, fileEncoding = "cp949", encoding = "UTF-8")
 head(product)
 
 # 단계 2: 기술 통계량
