@@ -172,13 +172,13 @@ inspect(rule)
 
 
 # 실습: single 트랜잭션 객체 생성
-setwd("C:/Rwork/Part-IV")
+setwd("C:/RStudy/Rwork-2nd/Part-IV")
 stran <- read.transactions("demo_single", format = "single", cols = c(1, 2))
 inspect(stran)
 
 # 실습: 중복 트랜잭션 제거 
 # 단계 1: 트랜잭션 데이터 가져오기 
-setwd("C:/Rwork/Part-IV")
+setwd("C://RStudy/Rwork-2nd/Part-IV")
 stran2 <- read.transactions("single_format.csv", format = "single",
                              sep = ",", cols = c(1, 2), rm.duplicates = T)
 
@@ -202,7 +202,7 @@ inspect(head(sort(astran2, by = "lift")))
 
 
 # 실습: basket 형식으로 트랜잭션 객체 생성
-setwd("C:/Rwork/Part-IV")
+setwd("C://RStudy/Rwork-2nd/Part-IV")
 btran <- read.transactions("demo_basket", format = "basket", sep = ",")
 inspect(btran)
 
