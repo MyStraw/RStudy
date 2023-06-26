@@ -40,7 +40,7 @@ plot(hc)
 
 # 실습: 신입사원의 면접시험 결과를 군집분석
 # 단계 1: 데이터 셋 가져오기 
-interview <- read.csv("C:/Rwork/Part-IV/interview.csv", header = TRUE)
+interview <- read.csv("C:/RStudy/Rwork-2nd/Part-IV/interview.csv", header = TRUE, fileEncoding = "cp949", encoding = "UTF-8")
 names(interview)
 head(interview)
 
@@ -153,8 +153,9 @@ install.packages("arules")
 library(arules)
 
 # 단계 2: 트랜잭션 객체 생성
-setwd("C:/Rwork/Part-IV")
+setwd("C:/RStudy/Rwork-2nd/Part-IV")
 tran <- read.transactions("tran.txt", format = "basket", sep = ",")
+#txt파일을 다른이름으로 저장해서 UTF-8로 다시 저장해주셈
 tran
 
 
