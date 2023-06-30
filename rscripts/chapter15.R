@@ -8,12 +8,14 @@ str(product)
 # 단계 2: 독립변수와 종속벼수 생성
 y = product$제품_만족도 
 x = product$제품_적절성
-df <- data.frame(x, y)
+df <- data.frame(x, y) # 분석하고자 하는 분석셋의 총 합
 
-# 단계 3: 단순 선형회귀 모델 생성
+# 단계 3: 단순 선형회귀 모델 생성 #리절트 변수에 선형모델에 담을건데 공식은 y를 구하고 싶은건데
+#x에 의한 y를 구하고싶어. ~는 뭐뭐를 따른다는 얘기. x는 y를 따른다. 거꾸로 적지마. 결과가 먼저,~ 과정이 뒤
+#x,y는 뒤에 있다. 위에 df에서 만들었지? data(x와 y는) = df에 있어
 result.lm <- lm(formula = y ~ x, data = df)
 
-# 단계 4: 회귀분석의 절편과 기울기
+# 단계 4: 회귀분석의 절편과 기울기 #인터셉터(절편)랑 0.7393(기울기)
 result.lm
 
 # 단계 5: 모델의 적합값과 잔차 보기 
@@ -25,7 +27,8 @@ fitted.values(result.lm)[1:2]
 # 단계 5-2: 관측값 보기 
 head(df, 1)
 
-# 단계 5-3: 회귀방정식을 적용하여 모델의 적합값 계산
+# 단계 5-3: 회귀방정식을 적용하여 모델의 적합값 계산#저자가 걱정이 많다
+#일일이 계산해주고 있네
 Y = 0.7789 + 0.7393 * 4
 Y
 
@@ -36,6 +39,9 @@ Y
 residuals(result.lm)[1:2]
 
 # 단계 5-6: 모델의 잔차와 회귀방정식에 의한 적합값으로부터 관측값 계산
+#잔차계산. 값을 1개만 예상했다. 빼면 돼. 우린 이 간단한걸 안쓸거다
+#왜했냐? 데이터 갖고오고, 종속변수 잡고 독립변인 나머지 빼고, 선형회귀모델 쓰고(lm)
+#회귀가 됏든 분류가 됐든 xg 부스트로 쓸거다. 시각화는 왜 필요? 결과값 확인
 -0.7359630 + 3.735963
 
 
@@ -48,23 +54,51 @@ result.lm <- lm(formula = y ~ x, data = product)
 
 # 단계 3: 회귀선
 abline(result.lm, col = "red")
+#이 빨간직선이 예측모델. 점 1개는 완벽하게 맞았네.
+#오차 작은점도 있고 오차 큰점도 있네.
+#선형모델은 줄 긋는겨? ㅇㅇ
+#이런 선형모델은 점이 겁나 많은데 점을 가장 많이 포함하는데
+#점과의 거리가 가장 짧은 선으로 그어봐
+#이런 단순 게임은 컴터한테 맡겨
+#이게 우리가 해야할 컨셉. 이게 우리가 잡아야할 컨셉
+#뱀처럼 막 점 이으면 안돼? -> 비선형.
+#즉 잔차가 클 확률이 매우 높다.
 
 
 # 실습: 선형 회귀분석 결과보기 
 summary(result.lm)
 
-# 실습: 다중 회귀분석
+
+
+
+
+# 실습: 다중 회귀분석 => 즉 x가 여러개
 # 단계 1: 변수 모델링
 y = product$제품_만족도
 x1 = product$제품_친밀도
 x2 = product$제품_적절성
 df <- data.frame(x1, x2, y)
 
+
+
 # 단계 2: 다중 회귀분석
+#이따위로 쓰진 않을거야. 벡터나 리스트로 넣어놓을 확률이 높지.
+#이렇게 데이터를 더하면 안된다잉!
+#단순선형을 쓸건데 x가 벡터나 리스트 타입으로 바뀔거야
+#x,y 딱 두개만 있는걸로.
+#판다스에서 머 빼고 드랍시켜라 이런거 나올건데
+#y빼고 나머지 다 x, 필요없는거 드랍하고 나머진 다 리스트나 벡터에 넣어
+#딥러닝 들어가기 입구컷 전까진 다 같다
+#EDA 거치면서 x중 드롭, NA 드롭. 깨끗해진후
+# 골라골라 xg부스트 쓸거냐 딥러닝갈거냐
+#이거 가기 앞까지가 기준선.
+#딥러닝도 하다가 잘 안되거나 느리면 xg부스트로 간다
+#딥러닝이 좋으면? 이거 쓴다. 배포속도 조절 하면서.
 result.lm <- lm(formula = y ~x1 + x2, data = df)
 result.lm
 
-# 실습: 다중 공선성 문제 확인
+#--------------------------------------------------- 여기 칸 안할겨
+# 실습: 다중 공선성 문제 확인#우린 이거 안한다
 # 단계 1: 패키지 설치
 library(car)
 
@@ -151,6 +185,10 @@ formula = Sepal.Length ~ Sepal.Width + Petal.Length
 model <- lm(formula = formula, data = iris)
 summary(model)
 
+
+#---------------------------------------------------- 여기 아래부터 하자
+
+
 # 실습: 날씨 관련 요인 변수로 비(rain) 유뮤 예측
 # 단계 1: 데이터 가져오기 
 weather = read.csv("./data/weather.csv", stringsAsFactors = F)
@@ -163,16 +201,20 @@ weather_df <- weather[ , c(-1, -6, -8, -14)]
 str(weather_df)
 
 weather_df$RainTomorrow[weather_df$RainTomorrow == 'Yes'] <- 1
+#이게 이상... yes, no를 숫자로 바꿀수 있어야 한다.
+#명목은 숫자로 바꾸고
 weather_df$RainTomorrow[weather_df$RainTomorrow == 'No'] <- 0
 weather_df$RainTomorrow <- as.numeric(weather_df$RainTomorrow)
 head(weather_df)
 
-# 단계 3: 학습데이터와 검정데이터 생성(7:3 비율)
+# 단계 3: 학습데이터와 검정데이터 생성(7:3 비율)로 나눠서 회귀모델 생성
 idx <- sample(1:nrow(weather_df), nrow(weather_df) * 0.7)
 train <- weather_df[idx, ]
 test <- weather_df[-idx, ]
 
-# 단계 4: 로지스틱 회귀모델 생성
+# 단계 4: 로지스틱 회귀모델 생성 # 이건 분류모델이다. 책에서 잘못썼다.
+#다음중 분류 모델로 틀린것은? ADsP 문제에 나온다. 회귀가 아니다. 분류모델이다.
+#앞까진 다 같은데 2진분류? yes or no로 분류.(binomial) 2진분류.
 weather_model <- glm(RainTomorrow ~ ., data = train, family = 'binomial')
 weather_model
 summary(weather_model)
