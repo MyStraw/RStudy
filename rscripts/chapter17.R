@@ -1,13 +1,20 @@
 # Chapter 17
 
 # 실습: 비정상성 시계열을 정상성 시계열로 변경
+#갑자기 정상인지 아닌지도 모르는데 정상성 시계열로 변경?
+#데이터 전처리는 왜 안해? 아까 필기 봤지?
+#세상 모든 데이터를 시계열인것처럼 가정하고 이걸 시작했다.
+#그러니 데이터 불러오지도...
+
 # 단계 1: AirPassengers 데이터 셋 가져오기 
 data(AirPassengers)
 
-# 단계 2: 차분 적용 - 평균 정상화
+# 단계 2: 차분 적용 - 평균 정상화 (앞에꺼에서 뒤에껄 빼는걸 차분이라 한다)
 par(mfrow = c(1, 2))
 ts.plot(AirPassengers)
 diff <- diff(AirPassengers)
+AirPassengers
+diff
 plot(diff)
 
 # 단계 3: 로그 적용 - 분산 정상화화
@@ -18,18 +25,18 @@ plot(log)
 
 
 # 실습: 단일 시계열 자료 시각화
-# 단계 1: WWWusage 데이터 셋 가져오기 
+# 단계 1: WWWusage 데이터 셋 가져오기 #인터넷 사용시간
 data("WWWusage")
 str(WWWusage)
 WWWusage
 
 # 단계 2: 시계열 자료 추세선 시각화 
-X11()
+#X11()
 ts.plot(WWWusage, type = "l", col = "red")
 
 
 # 실습: 다중 시계열 자료 시각화 
-# 단계 1: 데이터 가져오기 
+# 단계 1: 데이터 가져오기 #유럽 마켓 지표
 data(EuStockMarkets)
 head(EuStockMarkets)
 
@@ -38,7 +45,7 @@ EuStock <- data.frame(EuStockMarkets)
 head(EuStock)
 
 # 단계 3: 단일 시계열 자료 추세선 시각화(1,000개 데이터 대상)
-X11()
+# X11() 새창 띄우네.
 plot(EuStock$DAX[1:1000], type = "l", col = "red")
 
 # 단계 4: 다중 시계열 자료 추세선 시각화(1,000개 데이터 대상)
@@ -66,6 +73,7 @@ plot(stl(tsdata, "periodic"))
 
 # 단계 5: 시계열 분해와 변동요인 제거 
 m <- decompose(tsdata)
+m
 attributes(m)
 
 plot(m)
