@@ -1,4 +1,5 @@
 # Load necessary libraries
+install.packages("caret")
 library(dplyr)
 library(ggplot2)
 library(caret)
