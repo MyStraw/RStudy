@@ -8,6 +8,7 @@ library(rpart)
 library(rpart.plot)
 library(randomForest)
 library(xgboost)
+library(caret)
 #일단 데이터를 불러와서
 iris
 #어떤 데이터인지 한번 훑어보고
@@ -103,7 +104,7 @@ summary(testvi_lm) #회귀모델 결과 확인
 #p값. 0.05보다 작다. 신뢰수준 95% 유의. 귀무가설x. 
 #R값. 결정계수가 1에 가까울수록 회귀모델의 성능이 뛰어나다.
 names(testvi_lm)
-plot(test_vi$Sepal.Length, test$Petal.Length)
+plot(test_vi$Sepal.Length, test_vi$Petal.Length)
 
 #의사결정트리
 
@@ -129,10 +130,10 @@ trainSet <- iris[trainIndex,]
 testSet <- iris[-trainIndex,]
 
 
-
-
-
 model_rf <- randomForest(Species~., data=trainSet, type="class")
+
+
+
 
 # 품종 텍스트를 숫자로 바꿔야한다 xgboost 쓸라믄.
 iris$Species <- as.numeric(iris$Species) - 1 #이러면 0부터 시작
@@ -154,7 +155,7 @@ params <- list("objective" = "multi:softprob",
 model <- xgboost(data = trainSet_x, label = trainSet_y, params = params, nrounds = 100)
 
 # 예측
-preds <- predict(model, ttestSet_x)
+preds <- predict(model, testSet_x)
 preds <- matrix(preds, ncol = 3, byrow = TRUE)
 pred.labels <- max.col(preds) - 1
 
@@ -163,6 +164,16 @@ accuracy <- sum(testSet_y == pred.labels) / length(testSet_y)
 print(paste("Accuracy: ", accuracy))
 
 
+# 혼동행렬 계산
+cm <- confusionMatrix(as.factor(pred.labels), as.factor(testSet_y))
+
+# 혼동행렬 출력
+print(cm)
+
+
+# 변수 중요도 플롯 그리기
+importance_matrix <- xgb.importance(model = model)
+xgb.plot.importance(importance_matrix)
 
 
 
@@ -179,38 +190,24 @@ print(paste("Accuracy: ", accuracy))
 
 
 
-
-##############################################################
-data(iris)
-
-# 단계 2: 랜덤 포레스트 모데 ㄹ생성
 model <- randomForest(Species ~ ., data = iris)
 model
 
-# 실습: 파라미터 조정 - 트리 개수 300개, 변수 개수 4개 지정  
+
 model2 <- randomForest(Species ~ ., data = iris,
                        ntree = 300, mtry = 4, na.action = na.omit)
 model2
 
-# 실습: 중요 변수를 생성하여 랜덤 포레스트 모델 생성 
-# 단계 1: 중요 변수로 랜덤 포레스트 모델 생성
+
 model3 <- randomForest(Species ~ ., data = iris,
                        importance = T, na.action = na.omit)
 
-# 단계 2: 중요 변수 보기 
+
 importance(model3)
 
-# 단계 3: 중요 변수 시각화
+
 varImpPlot(model3)
 
-### 엔트포리(Entropy): 불확실성
-x1 <- 0.5; x2 <- 0.5 
-e1 <- -x1 * log2(x1) - x2 * log2(x2)
-e1
-
-x1 <- 0.7; x2 <- 0.3               
-e2 <- -x1 * log2(x1) - x2 * log2(x2)
-e2
 
 # 실습: ;최적의 파라미터(ntree, mtry) 찾기 
 # 단계 1: 속성값 생성
@@ -286,3 +283,4 @@ importance_matrix
 
 # 단계 12: 중요 변수 시각화 
 xgb.plot.importance(importance_matrix)
+
